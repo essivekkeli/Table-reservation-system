@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raportointi ja analytiikka</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4c2c2;
+      margin: 0;
+      padding-top: 60px;
+      z-index: 1000;
+      /* Keep this z-index lower than the navigation-mobile z-index */
+    }
+
+    .header-container {
+      background-color: #000;
+      padding: 0px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      /* Make the header fixed */
+      top: 0;
+      /* Stick it to the top */
+      width: 100%;
+      /* Full width */
+      z-index: 1000;
+      /* Ensure it's on top of other content */
+    }
+
+    .header-container h1 {
+      color: #fff;
+    }
+
+    h3 {
+      text-align: center;
+    }
+
+    .navigation {
+      list-style-type: none;
+      display: flex;
+      padding: 0;
+      margin-right: 30px;
+    }
+
+    .navigation li {
+      padding: 0px 10px;
+    }
+
+    .navigation li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s ease;
+      /* Add transition for smooth color change */
+    }
+
+    .navigation li a:hover {
+      color: #f4c2c2;
+      /* Change color on hover */
+    }
+
+    .main-container {
+      padding: 20px;
+      background-color: #ffc0cb;
+      /* Background color for main content */
+      width: calc(100% - 40px);
+      /* Adjusted width */
+      /* Full width */
+      flex-grow: 1;
+      /* Takes up the remaining space */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* Centers content vertically */
+      align-items: center;
+      /* Centers content horizontally */
+    }
+
+    .statistics-container {
+      padding: 20px;
+      background-color: #ffc0cb;
+      /* Background color for main content */
+      width: calc(100% - 40px);
+      /* Adjusted width */
+      /* Full width */
+      flex-grow: 1;
+      /* Takes up the remaining space */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* Centers content vertically */
+      align-items: center;
+      /* Centers content horizontally */
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #000;
+      text-align: left;
+      padding: 8px;
+    }
+
+    td {
+      background-color: #fff;
+      /* Sets the background color of table cells to white */
+    }
+
+    th {
+      background-color: #f4c2c2;
+    }
+
+    /* Hamburger Menu Styles */
+    .hamburger {
+      display: none;
+      margin-right: 30px;
+    }
+
+    .navigation-mobile {
+      display: none;
+      flex-direction: column;
+      background-color: #000;
+      padding: 10px 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1001;
+    }
+
+    .navigation-mobile li {
+      padding: 10px 20px;
+      transition: background-color 0.3s ease;
+      /* Add transition for smooth color change */
+    }
+
+    .navigation-mobile li:hover {
+      background-color: #555;
+      /* Change background color on hover */
+    }
+
+    .navigation-mobile li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .close-button {
+      align-self: flex-end;
+      padding: 10px;
+      cursor: pointer;
+      color: white;
+      font-size: 20px;
+      z-index: 1002;
+      /* This ensures the close button is above the navigation-mobile */
+    }
+
+    .th-sort-asc::after {
+      content: "\\2191";
+      /* Unicode for arrow up */
+    }
+
+    .th-sort-desc::after {
+      content: "\\2193";
+      /* Unicode for arrow down */
+    }
+
+    /* Media queries for responsiveness */
+
+    @media (max-width: 576px) {
+      .navigation {
+        flex-direction: column;
+        align-items: center;
+        /*align-items: flex-start;*/
+        flex-direction: column;
+        padding-left: 0;
+        display: none;
+      }
+
+      .navigation-mobile {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+      }
+
+      .line {
+        width: 25px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 5px;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      .show {
+        display: flex;
+      }
+    }
+    .logo-admin {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+  </style>
+</head>
+
+<body>
+  <div class="header-container"><div class="logo-admin">
+    <h1>KK</h1>
+        <a href="homepagecustomer.html" style="color: #fff; margin-left: 20px">Asiakaspuolen etusivu</a>
+    </div>
+    <div class="hamburger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+    <ul class="navigation">
+      <li><a href="reservationsadmin.html">Varaukset</a></li>
+      <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+      <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+      <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+    </ul>
+  </div>
+
+  <ul class="navigation-mobile">
+    <li><a href="reservationsadmin.html">Varaukset</a></li>
+    <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+    <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+    <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+    <li><span class="close-button">&#10006;</span></li>
+  </ul>
+
+  <main class="main-container">
+    <h2>Raportointi ja analytiikka</h2>
+    <!-- Reporting and analytics content -->
+  </main>
+  <section class="statistics-container">
+    <div id="varaus-tilastot">
+      <h3>Varausten tilastot</h3>
+      <table class="statistical-table" id="reservation-stats-table">
+        <tr>
+          <th>Varauskoodi</th>
+          <th>Päivämäärä</th>
+          <th>Aika</th>
+          <th>Asiakasmäärä</th>
+        </tr>
+        <tbody>
+          <tr>
+            <td id="varauskoodi"></td>
+            <td id="paivamaara"></td>
+            <td id="aika"></td>
+            <td id="henkilomaara"></td>
+          </tr>
+          <!-- Data rows will be added here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="statistics-container">
+    <div id="suosituimmat-varaukset-pvm">
+      <h3>Suosituimmat varausajat päivämäärän mukaan</h3>
+      <table class="popular-booking-dates-table" id="popular-booking-dates-table">
+        <tr>
+          <th>Päivämäärä </th>
+          <th>Henkilömäärä</th>
+        </tr>
+        <!-- Data rows will be added here by JavaScript -->
+        <tbody>
+          <tr>
+            <td id="paivamaara_date"></td>
+            <td id="henkilomaara_date"></td>
+          </tr>
+          <!-- Data rows will be added here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="statistics-container">
+    <div id="suosituimmat-varaukset-klo">
+      <h3>Suosituimmat varausajat kellonajan mukaan</h3>
+      <table class="popular-booking-times-table" id="popular-booking-times-table">
+        <tr>
+          <th>Aika</th>
+          <th>Henkilömäärän keskiarvo per varaus</th>
+        </tr>
+        <!-- Data rows will be added here by JavaScript -->
+        <tbody>
+          <tr>
+            <td id="aika_time"></td>
+            <td id="henkilomaara_time"></td>
+          </tr>
+          <!-- Data rows will be added here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="logout.js"></script>
+
+  <script>
+
+    async function haeVaraukset() {
+      fetch(`http://localhost:3000/getReservationReport`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ reportType: 'reservationDetails' })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("HTTP error! Status: " + response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const table = document.getElementById("reservation-stats-table");
+
+          // Clear any existing rows except the first one (headers)
+          while (table.rows.length > 1) {
+            table.deleteRow(1);
+          }
+
+          function formatDate(dateString) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            return new Date(dateString).toLocaleDateString('fi-FI', options);
+          }
+
+          // Iterate over each reservation and create a new table row
+          data.forEach(reservation => {
+            let row = table.insertRow();
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+            let cell4 = row.insertCell(3);
+
+            cell1.textContent = reservation.varauskoodi;
+            cell2.textContent = formatDate(reservation.paivamaara);
+            cell3.textContent = reservation.aika;
+            cell4.textContent = reservation.henkilomaara;
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching data: ", error);
+        });
+    }
+
+
+    // Fetch and display the most popular reservation times
+    async function haeSuositutPvm() {
+      fetch(`http://localhost:3000/getPopularDays`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ reportType: 'popularDates' })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("HTTP error! Status: " + response.status);
+          }
+          return response.json();
+        })
+        .then(data1 => {
+          const table = document.getElementById("popular-booking-dates-table"); // Get the correct table by ID
+          console.log(data1)
+          console.log('haetaan suositut pvm')
+
+          // Clear the table before adding new data, assuming there's at least one header row
+          while (table.rows.length > 1) {
+            table.deleteRow(1);
+          }
+
+          function formatDate(dateString) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            return new Date(dateString).toLocaleDateString('fi-FI', options);
+          }
+
+          // Iterate over each date by popularity
+          data1.forEach(item => {
+            let row = table.insertRow();
+            let cellDate = row.insertCell(0);
+            let cellCount = row.insertCell(1);
+
+            cellDate.textContent = formatDate(item.paivamaara);
+            cellCount.textContent = item.henkilomaara;
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching data:", error);
+        });
+    }
+
+
+
+
+    // Fetch and display the most popular reservation times
+    async function haeSuositutKlo() {
+      const reportType = { reportType: 'popularTimes' };
+      fetch(`http://localhost:3000/getPopularTimes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ reportType: 'popularTimes' })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("HTTP error! Status: " + response.status);
+          }
+          return response.json();
+        })
+        .then(data2 => {
+          const table = document.getElementById("popular-booking-times-table"); // Get the correct table by ID
+
+
+          while (table.rows.length > 1) {
+            table.deleteRow(1);
+          }
+
+          // Iterate over each reservation and create a new table row
+          data2.forEach(reservation => {
+            let row = table.insertRow();
+            let cellTime = row.insertCell(0);
+            let cellCount = row.insertCell(1);
+
+            cellTime.textContent = reservation.aika;
+            cellCount.textContent = reservation.henkilomaara;
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching data: ", error);
+        });
+    }
+
+    // Call the function when the window loads
+    //window.onload = haeVaraukset;
+    window.onload = function () {
+      haeVaraukset(); // Existing function call
+      haeSuositutPvm(); // New function call
+      haeSuositutKlo(); // New function call
+    };
+
+
+    //Hamburilaisnavigointi
+    const hamburger = document.querySelector(".hamburger");
+    const navigationMobile = document.querySelector(".navigation-mobile");
+    const closeButton = document.querySelector(".close-button");
+
+    hamburger.addEventListener("click", () => {
+      navigationMobile.classList.toggle("show");
+    });
+
+    closeButton.addEventListener("click", () => {
+      navigationMobile.classList.remove("show");
+    });
+
+    // Mobiilinavigoinnin sulkeminen
+    document.querySelectorAll(".navigation-mobile li").forEach((item) => {
+      item.addEventListener("click", () => {
+        navigationMobile.classList.remove("show");
+      });
+    });
+
+  </script>
+</body>
+
+</html>

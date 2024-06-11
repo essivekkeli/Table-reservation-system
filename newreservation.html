@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tee varaus</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4c2c2;
+        margin: 0;
+        padding-top: 60px;
+        z-index: 1000;
+        /* Keep this z-index lower than the navigation-mobile z-index */
+      }
+
+      .header-container {
+        background-color: #000;
+        padding: 0px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        /* Make the header fixed */
+        top: 0;
+        /* Stick it to the top */
+        width: 100%;
+        /* Full width */
+        z-index: 1000;
+        /* Ensure it's on top of other content */
+      }
+
+      .header-container h1 {
+        color: #fff;
+      }
+
+      .navigation {
+        list-style: none;
+        display: flex;
+        margin-right: 30px;
+        padding: 0;
+      }
+
+      .navigation li {
+        padding: 0 10px;
+      }
+
+      .navigation li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        /* Add transition for smooth color change */
+      }
+
+      .navigation li a:hover {
+        color: #f4c2c2;
+        /* Change color on hover */
+      }
+
+      .content-container {
+        background-color: #ffc0cb;
+        padding: 40px;
+        margin: 0 auto 10px auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .form-container,
+      .empty-container {
+        background-color: white;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 30%;
+        /* Adjust the width to give some space between the containers */
+      }
+
+      .additional-info {
+        background-color: white;
+        padding: 20px;
+        margin: 20px auto;
+        margin-top: 0px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px 70px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        background-color: #fff;
+        width: 60%;
+        /* Adjust based on your preference */
+      }
+
+      .checkbox-container,
+      .special-info-container {
+        flex: 1;
+        padding: 10px;
+        box-sizing: border-box;
+        align-items: flex-start;
+      }
+
+      #special-requests {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #000;
+        border-radius: 4px;
+        height: auto;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .button-container {
+        text-align: center;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      select,
+      input[type="date"],
+      input[type="button"] {
+        width: calc(100% - 20px);
+        /* Vähennetään marginaali leveydestä */
+        padding: 10px;
+        margin: 10px;
+        /* Samat marginaalit ympäriinsä */
+        border: 1px solid #000;
+        border-radius: 4px;
+        box-sizing: border-box;
+        /* Sisällytetään padding ja border kokonaisleveyteen */
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: row;
+        /* Default layout */
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      input[type="button"] {
+        margin-top: -30px;
+        background-color: #000;
+        color: white;
+        cursor: pointer;
+        max-width: 50%;
+      }
+
+      input[type="button"]:hover {
+        background-color: #555;
+        color: #f4c2c2;
+      }
+
+      /* Hamburger Menu Styles */
+      .hamburger {
+        display: none;
+        margin-right: 30px;
+      }
+
+      .navigation-mobile {
+        display: none;
+        flex-direction: column;
+        background-color: #000;
+        padding: 10px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1001;
+      }
+
+      .navigation-mobile li {
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+        /* Add transition for smooth color change */
+      }
+
+      .navigation-mobile li:hover {
+        background-color: #555;
+        /* Change background color on hover */
+      }
+
+      .navigation-mobile li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .close-button {
+        align-self: flex-end;
+        padding: 10px;
+        cursor: pointer;
+        color: white;
+        font-size: 20px;
+        z-index: 1002;
+        /* This ensures the close button is above the navigation-mobile */
+      }
+
+      /* Responsive design adjustments */
+
+      @media (max-width: 576px) {
+        /* Adjusted for mobile screens */
+        .content-container {
+          flex-direction: column;
+        }
+
+        .form-container,
+        .empty-container {
+          max-width: 100%;
+        }
+
+        .navigation {
+          flex-direction: column;
+          align-items: flex-start;
+          padding-left: 0;
+          display: none;
+        }
+
+        .navigation li {
+          padding: 5px 0;
+        }
+
+        .hamburger {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          width: 25px;
+          height: 25px;
+          cursor: pointer;
+        }
+
+        .line {
+          width: 25px;
+          height: 2px;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+
+        .navigation-mobile {
+          display: none;
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+          background-color: #000;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          cursor: pointer;
+          margin-bottom: 10px;
+        }
+
+        .close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        }
+
+        .show {
+          display: flex;
+        }
+
+        .input-group {
+          flex-direction: column;
+          /* Stack label and input */
+          align-items: flex-start;
+          /* Align to the start */
+          width: 100%;
+        }
+
+        select,
+        input[type="date"] {
+          width: 100%;
+          /* Change width to full to stack them */
+          box-sizing: border-box;
+          /* Include padding and border in width */
+        }
+
+        .button-container input[type="button"] {
+          width: 100%;
+          /* Full width for buttons */
+          box-sizing: border-box;
+          /* Include padding and border in width */
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header-container">
+      <h1>KK</h1>
+      <div class="hamburger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+      <ul class="navigation">
+        <li><a href="homepagecustomer.html">Etusivu</a></li>
+        <li><a href="myreservations.html">Varaukset</a></li>
+        <li><a href="myinformation.html">Oma tili</a></li>
+        <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+      </ul>
+    </div>
+
+    <ul class="navigation-mobile">
+      <li><a href="homepagecustomer.html">Etusivu</a></li>
+      <li><a href="myreservations.html">Varaukset</a></li>
+      <li><a href="myinformation.html">Oma tili</a></li>
+      <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+      <li><span class="close-button">&#10006;</span></li>
+    </ul>
+
+    <div class="content-container">
+      <div class="form-container">
+        <h2>Tee varaus</h2>
+        <form id="reservationForm">
+          <label for="group-size">Seurueen koko:</label>
+          <select id="group-size" name="group-size">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <!-- Lisää arvoja tänään -->
+          </select>
+
+          <label for="date-picker">Päivämäärä:</label>
+          <input type="date" id="date-picker" name="date-picker" />
+          <input
+            type="button"
+            value="Hae vapaat ajat"
+            onclick="haeVapaatAjat()"
+          />
+        </form>
+      </div>
+      <div class="empty-container">
+        <h2>Vapaat ajat</h2>
+        <!-- Empty container to match design -->
+      </div>
+
+      <div class="button-container">
+        <!--<input type="button" value="Seuraava">-->
+      </div>
+      <section class="additional-info">
+        <div class="checkbox-container">
+          <label>Lisäpalvelupyynnöt:</label>
+          <div class="checkbox-label">
+            <input
+              type="checkbox"
+              id="service1"
+              name="additional-service"
+              value="ikkunapöytä"
+            />
+            <label for="service1">Pöytä ikkunan vierestä</label>
+          </div>
+          <div class="checkbox-label">
+            <input
+              type="checkbox"
+              id="service2"
+              name="additional-service"
+              value="kukat"
+            />
+            <label for="service2">Kukat pöydälle</label>
+          </div>
+          <!-- Repeat the pattern for more checkboxes -->
+        </div>
+        <div class="special-info-container">
+          <label for="special-requests">Erikoispyynnöt:</label>
+          <div>
+            <textarea id="special-requests" name="special-requests" rows="4">
+Tähän voit täyttää esimerkiksi allergiat</textarea
+            >
+          </div>
+        </div>
+      </section>
+      <div class="button-container">
+        <input type="button" value="Tee varaus" onclick="teeVaraus()" />
+      </div>
+    </div>
+
+    <script src="logout.js"></script>
+    <script>
+      //funktio vapaiden aikojen löytämiselle, tämä tapahtuu kun nappia painaa
+      async function haeVapaatAjat() {
+        console.log("tämä funktio tekee asioita kun napista painaa");
+        const date = document.getElementById("date-picker").value;
+        const groupSize = parseInt(
+          document.getElementById("group-size").value,
+          10
+        );
+        const timeslotContainer = document.querySelector(".empty-container");
+        timeslotContainer.innerHTML = "<h2>Vapaat ajat</h2>"; // Reset container
+
+        try {
+          const response = await fetch(
+            "http://localhost:3000/available-timeslots",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ date, groupSize }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Network response was not ok.");
+          }
+
+          const availableTimeslots = await response.json();
+
+          //tätä funktiota kutsutaan jotta vapaat ajat näkyvät käyttöliittymässä
+          displayAvailableTimeslots(availableTimeslots);
+        } catch (error) {
+          console.error("Failed to fetch available timeslots:", error);
+        }
+      }
+
+      //funktio joka listaa vapaat ajat radiopainikkeina
+      function displayAvailableTimeslots(availableTimeslots) {
+        const timeslotContainer = document.querySelector(".empty-container"); // Oletetaan, että tämä on paikka, jossa aikavälit halutaan näyttää
+        timeslotContainer.innerHTML = "<h2>Vapaat ajat</h2>"; // Tyhjennä aiemmat sisällöt ja lisää otsikko
+
+        // Tarkista, onko saatavilla olevia aikavälejä
+        if (availableTimeslots.length === 0) {
+          timeslotContainer.innerHTML +=
+            "<p>Ei saatavilla olevia aikavälejä valitulle päivämäärälle.</p>";
+        } else {
+          // Luo formi, johon radiopainikkeet lisätään
+          const form = document.createElement("form");
+          form.id = "timeslotForm";
+
+          availableTimeslots.forEach((timeslot, index) => {
+            // Luo radiopainike jokaiselle ajalle
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.id = timeslot;
+            input.name = "timeslot";
+            input.value = timeslot;
+
+            // Luo label jokaiselle radiopainikkeelle
+            const label = document.createElement("label");
+            label.htmlFor = timeslot;
+            label.textContent = timeslot;
+
+            // Lisää rivinvaihto jokaisen radiopainikkeen jälkeen
+            const br = document.createElement("br");
+
+            // Lisää input ja label formiin
+            form.appendChild(input);
+            form.appendChild(label);
+            form.appendChild(br);
+          });
+
+          // Lisää formi timeslotContaineriin
+          timeslotContainer.appendChild(form);
+        }
+      }
+
+      //onclick funktio varauksen tallentamiselle
+      async function teeVaraus() {
+    var userId = sessionStorage.getItem("userId");
+
+    if (userId) {
+        let ryhmakoko = parseInt(document.getElementById("group-size").value, 10);
+        let paikkamaara = ryhmakoko % 2 === 0 ? ryhmakoko : ryhmakoko + 1;
+
+        // Make sure to get the value of the date picker and special requests
+        var pvm = document.getElementById("date-picker").value; // Use .value here
+        let varattuAika = null;
+
+        const timeslots = document.querySelectorAll('input[name="timeslot"]');
+        timeslots.forEach((timeslot) => {
+            if (timeslot.checked) {
+                varattuAika = timeslot.value;
+            }
+        });
+
+        let valitutLisapalvelut = [];
+        const checkboxes = document.querySelectorAll('.additional-info input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                valitutLisapalvelut.push(checkbox.value);
+            }
+        });
+
+        var valitutPalvelut = valitutLisapalvelut.join(", ");
+        var erikoisPyynto = document.getElementById("special-requests").value; // Use .value here
+
+        fetch("http://localhost:3000/makeReservation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                pvm,
+                varattuAika,
+                ryhmakoko,
+                paikkamaara,
+                erikoisPyynto,
+                valitutPalvelut,
+                userId,
+            }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                alert("Varauksen tekeminen onnistui");
+                window.location.href = 'myreservations.html'; // login page onnistunut kirjautuminen ohjaa tälle sivulle
+            } else {
+                alert("Varauksen tekemisessä meni joku mönkään: " + data.message);
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+    } else {
+        alert("Käyttäjän ID:tä ei löytynyt, miten edes olet päässyt tähän pisteeseen?");
+    }
+}
+
+      //nämä oli tässä älä koske
+      const hamburger = document.querySelector(".hamburger");
+      const navigationMobile = document.querySelector(".navigation-mobile");
+      const closeButton = document.querySelector(".close-button");
+
+      hamburger.addEventListener("click", () => {
+        navigationMobile.classList.toggle("show");
+      });
+
+      closeButton.addEventListener("click", () => {
+        navigationMobile.classList.remove("show");
+      });
+
+      // Close navigation list when any list item is clicked
+      document.querySelectorAll(".navigation-mobile li").forEach((item) => {
+        item.addEventListener("click", () => {
+          navigationMobile.classList.remove("show");
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin etusivu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4c2c2;
+            margin: 0;
+            padding-top: 60px;
+            z-index: 1000;
+            /* Keep this z-index lower than the navigation-mobile z-index */
+        }
+
+        .header-container {
+            background-color: #000;
+            padding: 0px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            /* Make the header fixed */
+            top: 0;
+            /* Stick it to the top */
+            width: 100%;
+            /* Full width */
+            z-index: 1000;
+            /* Ensure it's on top of other content */
+        }
+
+        .header-container h1 {
+            color: #fff;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        .navigation {
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+            margin-right: 30px;
+        }
+
+        .navigation li {
+            padding: 0px 10px;
+        }
+
+        .navigation li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            /* Add transition for smooth color change */
+        }
+
+        .navigation li a:hover {
+            color: #f4c2c2;
+            /* Change color on hover */
+        }
+
+
+        .main-container {
+            padding: 20px;
+            background-color: #ffc0cb;
+            /* Background color for main content */
+            width: calc(100% - 40px);
+            /* Adjusted width */
+            /* Full width */
+            flex-grow: 1;
+            /* Takes up the remaining space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centers content vertically */
+            align-items: center;
+            /* Centers content horizontally */
+        }
+
+
+
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+            margin-right: 30px;
+        }
+
+        .navigation-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+        }
+
+        .navigation-mobile li {
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            /* Add transition for smooth color change */
+        }
+
+        .navigation-mobile li:hover {
+            background-color: #555;
+            /* Change background color on hover */
+        }
+
+        .navigation-mobile li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .close-button {
+            align-self: flex-end;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            z-index: 1002;
+            /* This ensures the close button is above the navigation-mobile */
+        }
+
+        .th-sort-asc::after {
+            content: "\\2191";
+            /* Unicode for arrow up */
+        }
+
+        .th-sort-desc::after {
+            content: "\\2193";
+            /* Unicode for arrow down */
+        }
+
+        /* Media queries for responsiveness */
+
+        @media (max-width: 576px) {
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+                /*align-items: flex-start;*/
+                flex-direction: column;
+                padding-left: 0;
+                display: none;
+            }
+
+            .navigation-mobile {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+            }
+
+            .line {
+                width: 25px;
+                height: 2px;
+                background-color: #fff;
+                border-radius: 5px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background-color: #000;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-bottom: 10px;
+            }
+
+            .close-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            .show {
+                display: flex;
+            }
+        }
+        .logo-admin {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="header-container"><div class="logo-admin">
+        <h1>KK</h1>
+            <a href="homepagecustomer.html" style="color: #fff; margin-left: 20px">Asiakaspuolen etusivu</a>
+        </div>
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <ul class="navigation">
+            <li><a href="reservationsadmin.html">Varaukset</a></li>
+            <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+            <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+            <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+
+    <ul class="navigation-mobile">
+        <li><a href="reservationsadmin.html">Varaukset</a></li>
+        <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+        <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+        <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+        <li><span class="close-button">&#10006;</span></li>
+    </ul>
+
+    <main class="main-container">
+        <h2>Tervetuloa hallintaportaaliin!</h2>
+        <!-- Reporting and analytics content -->
+        <p>Voit tarkastella vahvistaa ja peruuttaa asiakkaiden varauksia, tarkastella suosituimpia varauspäiviä ja
+            kellonaikoja sekä hallita aukioloaikoja.</p>
+    </main>
+
+    <section>
+
+    </section>
+
+    <script src="logout.js"></script>
+
+    <script>
+
+        //Hamburilaisnavigointi
+        const hamburger = document.querySelector(".hamburger");
+        const navigationMobile = document.querySelector(".navigation-mobile");
+        const closeButton = document.querySelector(".close-button");
+
+        hamburger.addEventListener("click", () => {
+            navigationMobile.classList.toggle("show");
+        });
+
+        closeButton.addEventListener("click", () => {
+            navigationMobile.classList.remove("show");
+        });
+
+        // Mobiilinavigoinnin sulkeminen
+        document.querySelectorAll(".navigation-mobile li").forEach((item) => {
+            item.addEventListener("click", () => {
+                navigationMobile.classList.remove("show");
+            });
+        });
+    </script>
+</body>
+
+</html>

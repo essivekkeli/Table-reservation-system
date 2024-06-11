@@ -1,0 +1,20 @@
+back end serverin toimimiseksi:
+
+1. laita terminaaliin "node app.js" hostataksesi server puolta
+2. avaa live connect ja mene http://127.0.0.1:5500/login.html
+
+jos tämä onnistuu niin visual studio code terminaaliin pitäisi tulla: "Server running on port 3000"
+
+jos ei näillä vielä toimi niinkuin pitää tarkista:
+- database.js pitää sisältää sinun  mySQL tiedot
+- tarkista että olet päivittänyt mock up datan databaseen (päivitetty tietokanta löytyy database-kansiosta)
+
+Voit ensin testata pelkkää database yhdistämistä server side test kansion tiedostoilla, jos tämän kanssa on ongelmia, ota yhteys allekirjoittaneeseen
+
+jos hostaat tietokantaa mySQL:llä terminaaliin voi tulla jotain "päivitä parempaan mysql clienttiin" tms.
+Itse olen kiertänyt tämän hostaamalla XAMPP kautta portista 3307
+
+sitten taas jotta xampp toimii oikeasta portista config tiedostoa pitää muuttaa,
+service ja port settings pitää muuttaa
+
+XAMPP pitää olla myös asennettu straight to path eli C:/:n alle, ei esim. program filesiin

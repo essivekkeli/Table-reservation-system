@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varauslomake</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFC0CB;
+            margin: 0;
+            padding-top: 60px;
+            z-index: 1000; /* Keep this z-index lower than the navigation-mobile z-index */
+        }
+
+        .header-container {
+            background-color: #000;
+            padding: 0px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            /* Make the header fixed */
+            top: 0;
+            /* Stick it to the top */
+            width: 100%;
+            /* Full width */
+            z-index: 1000;
+            /* Ensure it's on top of other content */
+        }
+
+        .header-container h1 {
+            color: #FFF;
+        }
+
+        .navigation {
+            list-style: none;
+            display: flex;
+            margin-right: 30px;
+            padding: 0;
+        }
+
+        .navigation li {
+            padding: 0 10px;
+        }
+
+        .navigation li a {
+            text-decoration: none;
+            color: #FFF;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            /* Add transition for smooth color change */
+        }
+
+        .navigation li a:hover {
+            color: #F4C2C2;
+            /* Change color on hover */
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            margin: 20px auto;
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px 70px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            background-color: #FFF;
+            max-width: 800px;
+            /* Adjust based on your preference */
+        }
+
+        .left-column,
+        .right-column {
+            flex: 1 1 45%;
+            padding: 10px;
+            /* This padding will create space inside the boxes */
+            box-sizing: border-box;
+            /* Include padding and border in the box's width */
+        }
+
+        .full-width {
+            flex: 0 0 100%;
+        }
+
+        label,
+        input,
+        textarea,
+        .checkbox-container {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        textarea {
+            background-color: white;
+            /* Add this if you want to override the aqua background */
+            padding: 10px;
+            margin-bottom: 10px;
+            /* Adjust spacing between elements */
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-sizing: border-box;
+            /* Include padding and border in the width */
+            width: 100%;
+            /* Now the width includes padding and border */
+        }
+
+        .checkbox-container {
+            margin: 10px 0;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            /* Aligns items to the start of the container */
+            margin-bottom: 10px;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 5px;
+            /* Space between the checkbox and the label text */
+            vertical-align: middle;
+            /* Align checkbox vertically with label */
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #000;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+            color: #F4C2C2
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+            margin-right: 30px;
+
+        }
+
+        .navigation-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+        }
+
+        .navigation-mobile li {
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            /* Add transition for smooth color change */
+        }
+
+        .navigation-mobile li:hover {
+            background-color: #555;
+            /* Change background color on hover */
+        }
+
+        .navigation-mobile li a {
+            text-decoration: none;
+            color: #FFF;
+            font-weight: bold;
+        }
+
+        .close-button {
+            align-self: flex-end;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+        }
+
+        .navigation-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1002; /* This ensures the close button is above the navigation-mobile */
+        }
+
+        .navigation-mobile li {
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            /* Add transition for smooth color change */
+        }
+
+        .navigation-mobile li:hover {
+            background-color: #555;
+            /* Change background color on hover */
+        }
+
+        .navigation-mobile li a {
+            text-decoration: none;
+            color: #FFF;
+            font-weight: bold;
+        }
+
+        .close-button {
+            align-self: flex-end;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+        }
+
+        @media (max-width: 576px) {
+
+            .left-column,
+            .right-column {
+                flex-basis: 100%;
+            }
+
+            .form-container {
+                max-width: 95%;
+            }
+        }
+
+
+        @media (max-width: 576px) {
+
+            /* Adjusted for mobile screens */
+            .content-container {
+                flex-direction: column;
+            }
+
+            .form-container,
+            .empty-container {
+                max-width: 100%;
+            }
+
+            .navigation {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 0;
+                display: none;
+            }
+
+            .navigation li {
+                padding: 5px 0;
+            }
+
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+            }
+
+            .line {
+                width: 25px;
+                height: 2px;
+                background-color: #FFF;
+                border-radius: 5px;
+            }
+
+            .navigation-mobile {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background-color: #000;
+                color: #FFF;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-bottom: 10px;
+            }
+
+            .close-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            .show {
+                display: flex;
+            }
+
+            .input-group {
+                flex-direction: column;
+                /* Stack label and input */
+                align-items: flex-start;
+                /* Align to the start */
+                width: 100%;
+            }
+
+            select,
+            input[type="date"] {
+                width: 100%;
+                /* Change width to full to stack them */
+                box-sizing: border-box;
+                /* Include padding and border in width */
+            }
+
+            .button-container input[type="button"] {
+                width: 100%;
+                /* Full width for buttons */
+                box-sizing: border-box;
+                /* Include padding and border in width */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-container">
+        <h1>KK</h1>
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <ul class="navigation">
+            <li><a href="homepagecustomer.html">Etusivu</a></li>
+            <li><a href="myreservations.html">Varaukset</a></li>
+            <li><a href="myinformation.html">Oma tili</a></li>
+            <li><a href="#">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+
+    <ul class="navigation-mobile">
+        <li><a href="homepagecustomer.html">Etusivu</a></li>
+        <li><a href="myreservations.html">Varaukset</a></li>
+        <li><a href="myinformation.html">Oma tili</a></li>
+        <li><a href="#">Kirjaudu ulos</a></li>
+        <li><span class="close-button">&#10006;</span></li>
+    </ul>
+
+    <div class="form-container">
+        <div class="left-column">
+            <label for="firstname">Etunimi:</label>
+            <input type="text" id="firstname" name="firstname">
+
+            <label for="lastname">Sukunimi:</label>
+            <input type="text" id="lastname" name="lastname">
+
+            <label for="phone">Puhelinnumero:</label>
+            <input type="text" id="phone" name="phone">
+
+            <label for="email">Sähköposti:</label>
+            <input type="text" id="email" name="email">
+        </div>
+
+        <div class="right-column">
+            <label for="special-requests">Erikoispyynnöt:</label>
+            <textarea id="special-requests" name="special-requests"
+                rows="4">Tähän voit täyttää esimerkiksi allergiat</textarea>
+
+            <div class="checkbox-container">
+                <label>Lisäpalvelupyynnöt:</label>
+                <div class="checkbox-label">
+                    <input type="checkbox" id="service1" name="additional-service" value="service1">
+                    <label for="service1">Lisäpalvelu 1</label>
+                </div>
+                <div class="checkbox-label">
+                    <input type="checkbox" id="service2" name="additional-service" value="service2">
+                    <label for="service2">Lisäpalvelu 2</label>
+                </div>
+                <!-- Repeat the pattern for more checkboxes -->
+            </div>
+        </div>
+
+        <div class="full-width">
+            <button type="button">← Takaisin</button>
+            <button type="submit">Tee varaus</button>
+        </div>
+    </div>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navigationMobile = document.querySelector('.navigation-mobile');
+        const closeButton = document.querySelector('.close-button');
+
+        hamburger.addEventListener('click', () => {
+            navigationMobile.classList.toggle('show');
+        });
+
+        closeButton.addEventListener('click', () => {
+            navigationMobile.classList.remove('show');
+        });
+
+        // Close navigation list when any list item is clicked
+        document.querySelectorAll('.navigation-mobile li').forEach(item => {
+            item.addEventListener('click', () => {
+                navigationMobile.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+
+</html>

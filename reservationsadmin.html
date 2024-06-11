@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Varaukset</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4c2c2;
+        margin: 0;
+        padding-top: 60px;
+        z-index: 1000; /* Keep this z-index lower than the navigation-mobile z-index */
+      }
+
+      .header-container {
+        background-color: #000;
+        padding: 0px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        /* Make the header fixed */
+        top: 0;
+        /* Stick it to the top */
+        width: 100%;
+        /* Full width */
+        z-index: 1000;
+        /* Ensure it's on top of other content */
+      }
+
+      .header-container h1 {
+        color: #fff;
+      }
+
+      .navigation {
+        list-style-type: none;
+        display: flex;
+        margin-right: 30px;
+        padding: 0;
+      }
+
+      .navigation li {
+        padding: 0px 10px;
+      }
+
+      .navigation li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        /* Add transition for smooth color change */
+      }
+
+      .navigation li a:hover {
+        color: #f4c2c2;
+        /* Change color on hover */
+      }
+
+      .main-container {
+        padding: 20px;
+        background-color: #ffc0cb;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 60%;
+        margin: 20px auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .main-container h2 {
+        text-align: center;
+        /* This will center the text inside the h2 element */
+        width: 100%;
+        /* This ensures the h2 element extends full width of its container */
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #000;
+      }
+
+      th {
+        background-color: #fff;
+      }
+
+      tr:nth-child(even) {
+        background-color: #ffd1dc;
+      }
+
+      .button-container {
+        text-align: right;
+      }
+
+      .action-button {
+        background-color: #000;
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+        /* Adjust button font size */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+
+      .action-button:hover {
+        background-color: #555;
+        color: #ffd1dc;
+      }
+
+      /* Hamburger Menu Styles */
+      .hamburger {
+        display: none;
+        margin-right: 30px;
+      }
+
+      .navigation-mobile {
+        display: none;
+        flex-direction: column;
+        background-color: #000;
+        padding: 10px 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1001;
+      }
+
+      .navigation-mobile li {
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+        /* Add transition for smooth color change */
+      }
+
+      .navigation-mobile li:hover {
+        background-color: #555;
+        color: #f4c2c2;
+        /* Change background color on hover */
+      }
+
+      .navigation-mobile li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .close-button {
+        align-self: flex-end;
+        padding: 10px;
+        cursor: pointer;
+        color: white;
+        font-size: 20px;
+        z-index: 1002; /* This ensures the close button is above the navigation-mobile */
+      }
+
+      @media (max-width: 576px) {
+        .navigation {
+          flex-direction: column;
+          align-items: center;
+          padding-left: 0;
+          display: none;
+        }
+
+        .navigation-mobile {
+          display: none;
+        }
+
+        /* Adjusted for mobile screens */
+
+        .form-container,
+        .empty-container {
+          width: calc(100% - 40px);
+          /* Adjusted width */
+        }
+
+        .hamburger {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          width: 25px;
+          height: 25px;
+          cursor: pointer;
+        }
+
+        .line {
+          width: 25px;
+          height: 2px;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+          background-color: #000;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          cursor: pointer;
+          margin-bottom: 10px;
+        }
+
+        .close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        }
+
+        .show {
+          display: flex;
+        }
+
+        .table-container {
+          border: 0;
+          padding: 0;
+        }
+
+        /* Hide the original table headers */
+        .table-container thead tr {
+          display: none;
+        }
+
+        /* Set all table rows to block so they stack vertically */
+        .table-container table,
+        .table-container tbody,
+        .table-container tr {
+          display: block;
+          width: 100%;
+        }
+
+        .table-container th {
+          display: none;
+          /* This will hide the headers on mobile view */
+        }
+
+        /* Style table cells to look like individual rows */
+        .table-container td {
+          display: block;
+          width: 100%;
+          box-sizing: border-box;
+          /* Include padding in the width */
+        }
+
+        /* Generate labels from the headers for each cell */
+        .table-container td:before {
+          content: attr(data-label);
+          font-weight: bold;
+          display: block;
+          text-align: left;
+        }
+
+        /* Adjust the button container */
+        .button-container {
+          text-align: center;
+          padding: 8px 0;
+          /* Adjust padding to match the design */
+        }
+
+        /* Adjust the buttons to match your new design */
+        .action-button {
+          width: 90%;
+          /* Adjust width as needed */
+          margin: 10px auto;
+          /* Center the button with automatic margins */
+          display: block;
+          /* Ensure buttons are block-level */
+        }
+      }
+      .logo-admin {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header-container"><div class="logo-admin">
+      <h1>KK</h1>
+          <a href="homepagecustomer.html" style="color: #fff; margin-left: 20px">Asiakaspuolen etusivu</a>
+      </div>
+      <div class="hamburger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+      <ul class="navigation">
+        <li><a href="reservationsadmin.html">Varaukset</a></li>
+        <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+        <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+        <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+      </ul>
+    </div>
+
+    <ul class="navigation-mobile">
+      <li><a href="reservationsadmin.html">Varaukset</a></li>
+      <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+      <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+      <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+      <li><span class="close-button">&#10006;</span></li>
+    </ul>
+
+    <main class="main-container">
+      <h2>Vahvistamattomat varaukset</h2>
+      <div class="table-container">
+        <table class="reservation-table">
+          <thead>
+            <tr>
+              <th data-label>Varauskoodi</th>
+              <th data-label>Pvm/aika</th>
+              <th data-label>Määrä</th>
+              <th data-label>Varaajan nimi</th>
+              <th>Käsittele varaus</th>
+            </tr>
+          </thead>
+          <tr>
+            <!-- ylempää ja alempaa tr ei saa poistaa koska data tulee tähän.............-->
+          </tr>
+        </table>
+      </div>
+    </main>
+
+    <script src="logout.js"></script>
+
+    <script>
+      document.addEventListener(
+        "DOMContentLoaded",
+        haeVahvistamattomatVaraukset
+      );
+
+      //funktio varauksien hakemiselle
+      async function haeVahvistamattomatVaraukset() {
+        try {
+          const response = await fetch(
+            "http://localhost:3000/getReservationsAdmin",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Server response was not OK");
+          }
+
+          const reservations = await response.json();
+
+          const tableBody = document.querySelector(".reservation-table tbody");
+          while (tableBody.rows.length > 0) {
+            tableBody.deleteRow(0);
+          }
+          //then we will dynamicalle create and insert new rows for each reservation
+          reservations.forEach((reservation) => {
+            const row = tableBody.insertRow();
+            row.classList.add("reservation-item");
+
+            //creatings cells for each piece of data
+            const varausIDCell = row.insertCell();
+            varausIDCell.textContent = reservation.varausID;
+
+            const pvmAikaCell = row.insertCell();
+            const pvm = new Date(reservation.paivamaara).toLocaleDateString(
+              "fi-FI"
+            );
+            const aika = ` klo ${reservation.kellonaika.substring(0, 5)}`;
+            pvmAikaCell.textContent = pvm + aika;
+
+            const paikkamaaraCell = row.insertCell();
+            paikkamaaraCell.textContent = reservation.paikkamaara;
+
+            const varaajaCell = row.insertCell();
+            const nimi = `${reservation.firstName} ${reservation.lastName}`;
+            varaajaCell.textContent = nimi;
+
+            //napeille oma solu
+            const editButton = document.createElement("button");
+            editButton.textContent = "Vahvista";
+            editButton.className = "action-button";
+            editButton.addEventListener("click", function () {
+              // Pass the reservation ID and the row element to the vahvistaVaraus function
+              vahvistaVaraus(reservation.varausID, this.closest("tr"));
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Peruuta";
+            deleteButton.className = "action-button delete-button";
+            deleteButton.addEventListener("click", function () {
+              // Call the delete function and pass the current row and reservation ID
+              deleteReservation(reservation.varausID, this.closest("tr"));
+            });
+
+            // Append buttons to the last cell
+            const actionsCell = row.insertCell();
+            actionsCell.appendChild(editButton);
+            actionsCell.appendChild(deleteButton);
+          });
+        } catch (error) {
+          console.error("Error fetching reservations:", error);
+          alert("Varausten haku epäonnistui.");
+        }
+      }
+
+      //funktio varauksen vahvistamiselle
+      async function vahvistaVaraus(reservationId, rowElement) {
+        try {
+          const response = await fetch(
+            `http://localhost:3000/confirmReservation`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ varausID: reservationId }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to confirm reservation");
+          }
+
+          // Assuming the server sends back a success message
+          const result = await response.json();
+          if (result.success) {
+            // Remove the row from the table or update its status
+            rowElement.remove();
+            // Alternatively, update the row to indicate it's confirmed
+            // rowElement.style.backgroundColor = "#d4edda"; // A light green background, for instance
+            alert("Varaus vahvistettu onnistuneesti!");
+          } else {
+            alert("Varauksen vahvistaminen epäonnistui.");
+          }
+        } catch (error) {
+          console.error("Error confirming reservation:", error);
+          alert("Varauksen vahvistaminen epäonnistui.");
+        }
+      }
+
+      //funktio varauksen peruuttamiselle
+      async function deleteReservation(reservationId, rowElement) {
+        try {
+          const response = await fetch(
+            `http://localhost:3000/deleteReservation`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ varausID: reservationId }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to cancel reservation");
+          }
+
+          // Assuming the server sends back a success message
+          const result = await response.json();
+          if (result.success) {
+            // Remove the row from the table or update its status
+            rowElement.remove();
+            // Alternatively, update the row to indicate it's confirmed
+            // rowElement.style.backgroundColor = "#d4edda"; // A light green background, for instance
+            alert("Varaus peruutettu onnistuneesti!");
+          } else {
+            alert("Varauksen peruuttaminen epäonnistui.");
+          }
+        } catch (error) {
+          console.error("Error confirming reservation:", error);
+          alert("Varauksen peruuttaminen epäonnistui.");
+        }
+      }
+
+      //nämä oli tässä älä poista
+      const hamburger = document.querySelector(".hamburger");
+      const navigationMobile = document.querySelector(".navigation-mobile");
+      const closeButton = document.querySelector(".close-button");
+
+      hamburger.addEventListener("click", () => {
+        navigationMobile.classList.toggle("show");
+      });
+
+      closeButton.addEventListener("click", () => {
+        navigationMobile.classList.remove("show");
+      });
+
+      // Close navigation list when any list item is clicked
+      document.querySelectorAll(".navigation-mobile li").forEach((item) => {
+        item.addEventListener("click", () => {
+          navigationMobile.classList.remove("show");
+        });
+      });
+    </script>
+  </body>
+</html>

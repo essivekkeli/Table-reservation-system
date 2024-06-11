@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4c2c2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #ffc0cb;
+            padding: 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #000;
+            margin-bottom: 30px;
+        }
+
+        .login-container label {
+            display: block;
+            margin-bottom: 5px;
+            color: #000;
+            margin-top: 20px;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 25px;
+            /* Adjusted spacing here */
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            /* Adjusted spacing here */
+            border: none;
+            border-radius: 4px;
+            background-color: #000;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #555;
+        }
+
+        @media (min-width: 576px) {
+            .login-container {
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Kirjaudu sisään</h2>
+        <form id="loginForm" method="post">
+            <label for="username">Käyttäjätunnus:</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="password">Salasana:</label>
+            <input type="password" id="password" name="password" required />
+
+            <button type="submit">Kirjaudu</button>
+            <button type="button" onclick="window.location.href = 'resetpassword.html'">
+                Unohtuiko salasana?
+            </button>
+            <button type="button" onclick="window.location.href = 'registeration.html'">
+                Luo tunnus
+            </button>
+        </form>
+    </div>
+</body>
+
+<script src="loginClient.js">
+/*
+function kirjaudu(kayttajatunnus,salasana) {
+
+// Simuloi kirjautumista tarkistamalla käyttäjätunnus ja salasana
+if (kayttajatunnus === "kayttaja" && salasana === "salasana") {
+// Kirjautuminen onnistui
+alert("Kirjautuminen onnistui!");
+
+// Ohjaa käyttäjän pöytävaraussivulle
+window.location.href = "newreservation.html";
+} else {
+// Kirjautuminen epäonnistui
+alert("Virheellinen käyttäjätunnus tai salasana. Yritä uudelleen.");
+// Ohjaa käyttäjän takaisin kirjautumisnäkymään
+window.location.href = "login.html";
+}
+}
+*/
+</script>
+
+</html>

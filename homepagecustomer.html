@@ -1,0 +1,551 @@
+ <!DOCTYPE html>
+<html lang="fi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etusivu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4c2c2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header-container {
+      background-color: #000;
+      padding: 0px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-container h1 {
+      color: #fff;
+    }
+
+    .navigation {
+      list-style-type: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navigation li {
+      padding: 0px 10px;
+    }
+
+    .navigation li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s ease;
+      /* Add transition for smooth color change */
+    }
+
+    .navigation li a:hover {
+      color: #f4c2c2;
+      /* Change color on hover */
+    }
+
+    .main-container {
+      padding: 20px;
+      background-color: #ffc0cb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 60%;
+      /* Adjust as needed */
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .introduction-container {
+      padding: 20px;
+      background-color: #ffc0cb;
+      display: flex;
+
+      align-items: center;
+      width: 60%;
+      justify-content: space-between;
+
+      margin: 20px auto;
+    }
+
+    .introduction-container img {
+      width: 350px;
+      height: auto;
+    }
+
+    .introduction-container p {
+      padding: 20px;
+    }
+
+    .footer-container {
+      background-color: #f4c2c2;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-container h2 {
+      margin: 20px;
+      /* Set margin to auto for horizontal centering */
+    }
+
+    .footer-container table td:first-child {
+      padding-right: 20px;
+      /* Adjust the right padding as needed */
+    }
+
+    .footer-container table td {
+      padding-top: 5px;
+      /* Space above each cell */
+      padding-bottom: 5px;
+      /* Space below each cell */
+      text-align: center;
+    }
+
+
+    /* Hamburger Menu Styles */
+    .hamburger {
+      display: none;
+    }
+
+    .navigation-mobile {
+      display: none;
+      flex-direction: column;
+      background-color: #000;
+      padding: 10px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .navigation-mobile li {
+      padding: 10px 20px;
+      transition: background-color 0.3s ease;
+      /* Add transition for smooth color change */
+    }
+
+    .navigation-mobile li:hover {
+      background-color: #555;
+      /* Change background color on hover */
+    }
+
+    .navigation-mobile li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .close-button {
+      align-self: flex-end;
+      padding: 10px;
+      cursor: pointer;
+      color: white;
+      font-size: 20px;
+    }
+
+    @media (max-width: 576px) {
+      .main-container h2 {
+        text-align: center;
+        /* Center the text */
+      }
+
+      .main-container,
+      .introduction-container {
+        width: 85%;
+      }
+
+      .introduction-container {
+        flex-direction: column;
+        /* Stack image and text vertically */
+      }
+
+      .introduction-container img {
+        width: 100%;
+        /* Make images responsive */
+        height: auto;
+        /* Maintain aspect ratio */
+      }
+
+      .introduction-container p {
+        padding: 10px 0;
+        /* Adjust padding for readability on small screens */
+      }
+
+      .footer-container {
+        flex-direction: column;
+        /* Optionally stack footer content vertically */
+        text-align: center;
+        /* Center footer content */
+        padding: 20px;
+        /* Adjust footer padding */
+      }
+
+      .navigation {
+        flex-direction: column;
+        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 0;
+        display: none;
+      }
+
+      .navigation-mobile {
+        display: none;
+      }
+
+      /* Adjusted for mobile screens */
+      .content-container {
+        flex-direction: column;
+      }
+
+      .form-container,
+      .empty-container {
+        max-width: 100%;
+      }
+
+      .navigation li {
+        padding: 5px 0;
+      }
+
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+      }
+
+      .line {
+        width: 25px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 5px;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      .show {
+        display: flex;
+      }
+
+      .introduction-container {
+        flex-direction: column;
+        /* Stack items vertically on small screens */
+      }
+
+
+      .nimiNaytto {
+        color: white;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+    .logo-admin {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+
+  </style>
+</head>
+
+<body>
+  <div class="header-container">
+    <div class="logo-admin">
+      <h1>KK</h1>
+      <!-- Placeholder for Admin Link -->
+      <a
+        href="frontpageadmin.html"
+        id="adminLink"
+        style="display: none; color: #fff; margin-left: 20px"
+        >Admin - hallintapaneeli</a
+      >
+    </div>
+
+
+
+    <div class="hamburger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+    <ul class="navigation">
+      <li><a href="homepagecustomer.html">Etusivu</a></li>
+      <li><a href="myreservations.html">Varaukset</a></li>
+      <li><a href="myinformation.html">Oma tili</a></li>
+      <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+    </ul>
+  </div>
+
+    <ul class="navigation-mobile">
+      <li><a href="homepagecustomer.html">Etusivu</a></li>
+      <li><a href="myreservations.html">Varaukset</a></li>
+      <li><a href="myinformation.html">Oma tili</a></li>
+      <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+      <li><span class="close-button">&#10006;</span></li>
+    </ul>
+
+  <main class="main-container">
+
+    <!-- tämä on placeholder käyttäjän nimelle-->
+    <div class="nimiNaytto">
+      <p id="userFullName">Ladataan tietuetta...</p>
+    </div>
+
+    <h2>Tule maistamaan Kiukkusen kakkuja!</h2>
+    <img src="Kiukkusenkakut.png" width="80%" />
+  </main>
+
+
+
+  <section class="introduction-container">
+    <!--esittely ja joku kuva-->
+    <div>
+      <p>
+        "Kiukkusen Kakut" on uniikki ravintolakokemus, joka tarjoilee
+        asiakkailleen unohtumattoman makumatkan. Tässä kahvilassa jokainen
+        leivonnainen on valmistettu suurella sydämellä ja ripauksella
+        "kiukkua", mikä tarkoittaa intohimoa ja sitoutumista leivonnan
+        taiteeseen. Paikan leivonnaisvalikoima vaihtelee perinteisistä
+        suomalaisista herkuista rohkeisiin ja innovatiivisiin luomuksiin,
+        jotka haastavat ja ilahduttavat makunystyröitä.
+      </p>
+    </div>
+
+    <div>
+      <img src="Kakku1.PNG" />
+    </div>
+  </section>
+
+  <section class="introduction-container">
+    <!--esittely ja joku kuva-->
+    <div>
+      <img src="Kakku2.PNG" />
+    </div>
+    <div>
+      <p>
+        "Kiukkusen Kakut" ei ole vain kahvila, vaan se on kohtaamispaikka,
+        jossa ystävät ja perheet kokoontuvat nauttimaan laadukkaista,
+        käsintehtyistä leivonnaisista ja lämpimästä, kodikkaasta tunnelmasta.
+        Täällä jokainen suklaakakku, pulla, piiras ja leivos on tehty
+        rakkaudella, ja se näkyy sekä maistuu jokaisessa palassa. Tervetuloa
+        "Kiukkusen Kakut" -kahvilaan, missä jokainen puraisu on matka makujen
+        maailmaan!
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer-container">
+    <h2>Aukioloajat</h2>
+    <table id="normaalitaukioloajat" style="margin: 0 auto">
+      <tr id="maanantai"></tr>
+      <tr id="tiistai"></tr>
+      <tr id="keskiviikko"></tr>
+      <tr id="torstai"></tr>
+      <tr id="perjantai"></tr>
+      <tr id="lauantai"></tr>
+      <tr id="sunnuntai"></tr>
+    </table>
+    <h4>Huomioi poikkeusaukioloajat:</h4>
+    <table id="poikkeusaukioloajat" style="margin: 0 auto"></table>
+  </footer>
+  </table>
+</body>
+
+<!-- tällä skriptillä uloskirjautuminen toimii, vaatii että kirjaudu ulos nappiin laittaa id:ksi: logoutLink
+        skripti ohjaa myös automaattisesti kirjaudu sisään - sivulle  -->
+<script src="logout.js"></script>
+
+<script>
+
+  //aukioloaikojen hakeminen
+  async function haeAukioloajatEtusivu() {
+    try {
+      const response = await fetch('http://localhost:3000/getOpeningHoursFrontPage', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("HTTP error! Status: " + response.status);
+      }
+
+      const openingHours = await response.json();
+
+      // Now, you would populate the table with the fetched data.
+      // Format and populate the table with the fetched data.
+      openingHours.forEach(day => {
+        let formattedOpenTime = formatTime(day.avaa);
+        let formattedCloseTime = formatTime(day.sulkee);
+
+        let formattedTime = "";
+        if (formattedOpenTime === '00' && formattedCloseTime === '00') {
+          formattedTime = 'Suljettu';
+        } else {
+          formattedTime = `${formattedOpenTime}-${formattedCloseTime}`;
+        }
+
+        // Abbreviate the weekday name to the first two letters
+        const abbreviatedDay = day.viikonpaiva.substring(0, 2);
+
+        const row = document.getElementById(day.viikonpaiva.toLowerCase()); // Ensure id matches weekday's name
+        row.innerHTML = `<td>${abbreviatedDay}</td><td>${formattedTime}</td>`; // Set the innerHTML of the row
+      });
+
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+
+  //tässä formatoidaan sitä kannasta tullutta kellonaikaa
+  function formatTime(timeStr) {
+    const time = timeStr.substring(0, 5);
+    const [hours, minutes] = time.split(':');
+    return minutes === '00' ? hours : time.replace(':', '.');
+  }
+  //tähän loppuu kellonaikojen asettaminen
+
+  async function haePoikkeusaukioloajatEtusivulle() {
+    try {
+        const response = await fetch('http://localhost:3000/getSpecialOpeningHoursFrontPage');
+        if (!response.ok) {
+            throw new Error("HTTP error! Status: " + response.status);
+        }
+        const poikkeusaukioloajat = await response.json();
+
+        const table = document.getElementById('poikkeusaukioloajat');
+
+        // Tyhjennä taulukko ensin, jos siinä on jo rivejä
+        table.innerHTML = '';
+
+        // Käy läpi jokainen poikkeusaukioloaika ja lisää rivi taulukkoon
+        poikkeusaukioloajat.forEach(poikkeus => {
+            const tr = document.createElement('tr');
+
+            let formattedOpenTime = formatTime(poikkeus.avaa);
+            let formattedCloseTime = formatTime(poikkeus.sulkee);
+            
+            // Formatoidaan päivämäärä haluttuun muotoon
+            const formattedDate = formatoiPaivamaara(poikkeus.paivamaara);
+
+            const dateCell = document.createElement('td');
+            dateCell.textContent = formattedDate;
+            tr.appendChild(dateCell);
+
+            const statusCell = document.createElement('td');
+            // Jos sekä aukeamis- että sulkemisaika ovat "00:00:00", merkitään päivä "Suljettu"
+            if (poikkeus.avaa === "00:00:00" && poikkeus.sulkee === "00:00:00") {
+                statusCell.textContent = 'Suljettu';
+                statusCell.colSpan = 2; // Vie kaksi saraketta
+            } else {
+                const openCell = document.createElement('td');
+                openCell.textContent =  `${formattedOpenTime}-${formattedCloseTime}`;
+                tr.appendChild(openCell);
+            }
+            
+            tr.appendChild(statusCell);
+
+            // Lisää rivi taulukkoon
+            table.appendChild(tr);
+        });
+    } catch (error) {
+        console.error("Error fetching special opening hours: ", error);
+    }
+}
+
+function formatoiPaivamaara(paivamaara) {
+    const osat = paivamaara.split('-');
+    return `${osat[2]}.${osat[1]}.${osat[0]}`;
+}
+
+//tähän päättyy poik
+  
+  // tämä on uutta
+  // tämä etsii käyttäjän nimen session storagesta
+  const username = sessionStorage.getItem("currentloggedin");
+
+  //kunhan käyttäjänimi vain löytyy etenee tähän metodiin
+  if (username) {
+    // tämä metodi hakee käyttäjän koko nimen käyttäen apuan homepageServer.js - tiedostoa 
+    fetch(`http://localhost:3000/getFullName?username=${encodeURIComponent(username)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Jos käyttäjän nimi löytyy, näyttää tämän tekstin
+        document.getElementById('userFullName').textContent = `Tervetuloa ${data.fullName}`;
+        //id tallentuu sessionstorageen
+        sessionStorage.setItem("userId", data.asiakasID);
+        sessionStorage.setItem("admin", data.admin);
+         //miten admin hallintapaneeli tulee näkyviin
+         if (data.admin == 1) {
+            // For Desktop Navigation
+            document.getElementById("adminLink").style.display = "inline"; // Makes the admin link visible
+            console.log("Olet admin hahaa tämä onnistui");
+            
+            
+          }
+      })
+      .catch((error) => {
+        // Jos haussa tapahtuu virhe, näyttää tämän tekstin
+        console.error("Error fetching full name:", error);
+        document.getElementById("userFullName").textContent = "User";
+      });
+  } else {
+    // Jos sisäänkirjautunutta käyttäjää ei löydy, tämä teksti näkyy
+    document.getElementById("userFullName").textContent = "Guest";
+  }
+
+  //tämä on tässä ollut jo ennenkin, älä poista
+
+  const hamburger = document.querySelector(".hamburger");
+  const navigationMobile = document.querySelector(".navigation-mobile");
+  const closeButton = document.querySelector(".close-button");
+
+  hamburger.addEventListener("click", () => {
+    navigationMobile.classList.toggle("show");
+  });
+
+  closeButton.addEventListener("click", () => {
+    navigationMobile.classList.remove("show");
+  });
+
+  // Close navigation list when any list item is clicked
+  document.querySelectorAll(".navigation-mobile li").forEach((item) => {
+    item.addEventListener("click", () => {
+      navigationMobile.classList.remove("show");
+    });
+  });
+
+  window.onload = function () {
+    haeAukioloajatEtusivu();
+    haePoikkeusaukioloajatEtusivulle();
+  };
+</script>
+
+</html>

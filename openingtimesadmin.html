@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aukioloajat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4C2C2;
+            margin: 0;
+            padding-top: 60px;
+            z-index: 1000;
+            /* Keep this z-index lower than the navigation-mobile z-index */
+        }
+
+        .header-container {
+            background-color: #000;
+            padding: 0px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            /* Make the header fixed */
+            top: 0;
+            /* Stick it to the top */
+            width: 100%;
+            /* Full width */
+            z-index: 1000;
+            /* Ensure it's on top of other content */
+        }
+
+        .header-container h1 {
+            color: #FFF;
+        }
+
+        .navigation {
+            list-style-type: none;
+            display: flex;
+            margin-right: 30px;
+            padding: 0;
+        }
+
+        .navigation li {
+            padding: 0px 10px;
+        }
+
+        .navigation li a {
+            text-decoration: none;
+            color: #FFF;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            /* Add transition for smooth color change */
+        }
+
+        .navigation li a:hover {
+            color: #F4C2C2;
+            /* Change color on hover */
+        }
+
+        .main-container {
+            padding: 20px;
+            background-color: #FFC0CB;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60%;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .exception-container {
+            padding: 20px;
+            background-color: #FFC0CB;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60%;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #000;
+        }
+
+
+
+        .day-row {
+            background-color: #FFF;
+        }
+
+        .day-row:nth-child(even) {
+            background-color: #FFD1DC;
+            /*tästä saa sen joka toisen rivin värin pois-->*/
+        }
+
+        /* Määritellään thead-elementin taustaväri */
+        .exception-table thead {
+            background-color: #FFD1DC;
+        }
+
+        /* Määritellään thead sisällä olevan tr-elementin taustaväri */
+        .exception-table thead tr {
+            background-color: #FFD1DC !important;
+            /* Varmistetaan, että väri periytyy */
+        }
+
+        /* Tämän jälkeen määritellään rivien taustavärit */
+        .exception-table .exception-row {
+            background-color: #FFF;
+        }
+
+        .exception-table .exception-row:nth-child(even) {
+            background-color: #FFD1DC;
+        }
+
+
+
+
+
+        .action-button {
+            background-color: #000;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .button-row {
+            align-items: center;
+            padding: 20px;
+        }
+
+        .action-button:hover {
+            background-color: #555;
+            color: #F4C2C2
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            border: 1px solid #000;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.2);
+            margin-right: 5px;
+        }
+
+
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: block;
+            margin-right: 30px;
+        }
+
+        .navigation-mobile {
+            display: none;
+            flex-direction: column;
+            background-color: #000;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+
+        }
+
+        .navigation-mobile li {
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            /* Add transition for smooth color change */
+        }
+
+        .navigation-mobile li:hover {
+            background-color: #555;
+            /* Change background color on hover */
+        }
+
+        .navigation-mobile li a {
+            text-decoration: none;
+            color: #FFF;
+            font-weight: bold;
+        }
+
+        .close-button {
+            align-self: flex-end;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            z-index: 1002;
+            /* This ensures the close button is above the navigation-mobile */
+        }
+
+
+        @media (max-width: 576px) {
+
+            .main-container,
+            .exception-container {
+                width: 85%;
+            }
+
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 0;
+                display: none;
+            }
+
+            .navigation-mobile {
+                display: none;
+            }
+
+            .navigation li {
+                padding: 5px 0;
+            }
+
+
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+            }
+
+            .line {
+                width: 25px;
+                height: 2px;
+                background-color: #FFF;
+                border-radius: 5px;
+            }
+
+
+
+            .mobile-menu-toggle {
+                display: block;
+                background-color: #000;
+                color: #FFF;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-bottom: 10px;
+            }
+
+            .close-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            .show {
+                display: flex;
+            }
+
+
+            .input-group {
+                flex-direction: column;
+                /* Stack label and input */
+                align-items: flex-start;
+                /* Align to the start */
+                width: 100%;
+            }
+
+            .button-container input[type="button"] {
+                width: 100%;
+                /* Full width for buttons */
+                box-sizing: border-box;
+                /* Include padding and border in width */
+            }
+
+            /*Tble elementti mobiiliresponsiiviseksi*/
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead,
+            thead tr {
+                width: 100%;
+                position: static;
+                top: auto;
+                left: auto;
+                display: table !important;
+                /* tai käytä 'block', jos haluat pitää kaiken lohkoina */
+            }
+
+            tr {
+                border: 1px solid #ccc;
+            }
+
+            td {
+                /* Behave like "row" */
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding: 15px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+
+                /*text-align: center;
+                /* Center the text */
+                /*padding: 15px 0;
+                /* Increase padding to ensure content is centered */
+            }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                /* Label the data */
+                content: attr(data-label);
+            }
+
+            .exception-table tbody td:first-child {
+                font-weight: bold;
+            }
+
+
+        }
+
+        .logo-admin {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-container">
+        <div class="logo-admin">
+            <h1>KK</h1>
+            <a href="homepagecustomer.html" style="color: #fff; margin-left: 20px">Asiakaspuolen etusivu</a>
+        </div>
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <ul class="navigation">
+            <li><a href="reservationsadmin.html">Varaukset</a></li>
+            <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+            <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+            <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+
+    <ul class="navigation-mobile">
+        <li><a href="homepagecustomer.html">Asiakaspuolen etusivu</a></li>
+        <li><a href="reservationsadmin.html">Varaukset</a></li>
+        <li><a href="reportingadmin.html">Raportointi ja analytiikka</a></li>
+        <li><a href="openingtimesadmin.html">Aukioloajat</a></li>
+        <li><a href="#" id="logoutLink">Kirjaudu ulos</a></li>
+        <li><span class="close-button">&#10006;</span></li>
+    </ul>
+
+    <main class="main-container">
+        <h2>Aukioloaikojen hallinta</h2>
+        <div id="mobile-button-container"></div>
+
+        <table class="table-responsive">
+            <tr class="day-row">
+                <td>maanantai</td>
+                <td>
+                    <div>
+                        <label for="aukeaa-mon">Aukeaa:</label>
+                        <select class="aukeaa-select" id="aukeaa-mon">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <label for="sulkeutuu-mon">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="sulkeutuu-mon">
+                    </div>
+                </td>
+                <td>
+                    <input type="checkbox" id="closed-mon" name="closed-mon"><label for="closed-mon">Suljettu</label>
+                </td>
+            </tr>
+            <tr class="day-row">
+                <td>tiistai</td>
+                <td>
+                    <div>
+                        <label for="aukeaa-tue">Aukeaa:</label>
+                        <select class="aukeaa-select" id="aukeaa-tue">
+                    </div>
+                </td>
+
+                <td>
+                    <div>
+                        <label for="sulkeutuu-tue">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="sulkeutuu-tue">
+                    </div>
+                </td>
+                <td><input type="checkbox" id="closed-tue" name="closed-tue"><label for="closed-tue">Suljettu</label>
+                </td>
+            </tr>
+            <tr class="day-row">
+                <td>keskiviikko</td>
+                <td>
+                    <div>
+                        <label for="aukeaa-wed">Aukeaa:</label>
+                        <select class="aukeaa-select" id="aukeaa-wed">
+                    </div>
+                <td>
+                    <div>
+                        <label for="sulkeutuu-wed">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="sulkeutuu-wed">
+                    </div>
+                </td>
+                <td><input type="checkbox" id="closed-wed" name="closed-wed"><label for="closed-wed">Suljettu</label>
+                </td>
+            </tr>
+            <tr class="day-row">
+                <td>torstai</td>
+                <td>
+                    <div>
+                        <label for="aukeaa-thu">Aukeaa:</label>
+                        <select class="aukeaa-select" id="aukeaa-thu">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <label for="sulkeutuu-thu">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="sulkeutuu-thu">
+                    </div>
+                </td>
+                <td><input type="checkbox" id="closed-thu" name="closed-thu"><label for="closed-thu">Suljettu</label>
+                </td>
+            </tr>
+            <tr class="day-row">
+                <td>perjantai</td>
+                <td>
+                    <div>
+                        <label for="aukeaa-fri">Aukeaa:</label>
+                        <select class="aukeaa-select" id="aukeaa-fri">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <label for="sulkeutuu-fri">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="sulkeutuu-fri">
+                    </div>
+                </td>
+                <td><input type="checkbox" id="closed-fri" name="closed-fri"><label for="closed-fri">Suljettu</label>
+                </td>
+            </tr>
+            <tr class="day-row">
+                <td>lauantai</td>
+                <td>
+                    <div>
+                        <label for="aukeaa-sat">Aukeaa:</label>
+                        <select class="aukeaa-select" id="aukeaa-sat">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <label for="sulkeutuu-sat">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="sulkeutuu-sat">
+                    </div>
+                </td>
+                <td><input type="checkbox" id="closed-sat" name="closed-sat"><label for="closed-sat">Suljettu</label>
+                </td>
+            </tr>
+            <tr class="day-row">
+                <td>sunnuntai</td>
+                <td>
+                    <div>
+                        <label for="aukeaa-sun">Aukeaa:</label>
+                        <select class="aukeaa-select" id="aukeaa-sun">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <label for="sulkeutuu-sun">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="sulkeutuu-sun">
+                    </div>
+                </td>
+                <td>
+                    <input type="checkbox" id="closed-sun" name="closed-sun"><label for="closed-sun">Suljettu</label>
+                </td>
+            </tr>
+
+
+        </table>
+        <div class="button-row">
+            <button id="muokkaa-button" class="action-button">Muokkaa</button>
+        </div>
+    </main>
+
+    <section class="exception-container">
+        <h2>Poikkeusajat</h2>
+        <table class="exception-table">
+            <!-- Exception row moved inside the table header -->
+            <thead class="exception-thead">
+                <tr class="exception-row">
+                    <td>
+                        <label for="exception-aukeaa">Pvm:</label>
+                        <input type="date" id="exception-date">
+                    </td>
+                    <td>
+                        <label for="exception-aukeaa">Aukeaa:</label>
+                        <select class="aukeaa-select" id="exception-aukeaa">
+                            <!-- Populate this select with options using JavaScript -->
+                        </select>
+                    </td>
+                    <td>
+                        <label for="exception-sulkeutuu">Sulkeutuu:</label>
+                        <select class="sulkeutuu-select" id="exception-sulkeutuu">
+                            <!-- Populate this select with options using JavaScript -->
+                        </select>
+                    </td>
+                    <td>
+                        <input type="checkbox" id="exception-suljettu"><label for="exception-suljettu">Suljettu</label>
+                    </td>
+                    <td colspan="4">
+                        <button class="action-button" id="add-exception-button">Lisää</button>
+                    </td>
+                </tr>
+            </thead>
+            <tbody class="exceptions">
+                <!-- Exception rows will be added dynamically here -->
+            </tbody>
+        </table>
+    </section>
+
+    <script src="logout.js"></script>
+
+    <script>
+        async function haeAukioloajat() {
+            try {
+                const response = await fetch('http://localhost:3000/getOpeningHours', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("HTTP error! Status: " + response.status);
+                }
+
+                const data = await response.json();
+                const viikonpaivat = ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai', 'Sunnuntai'];
+                const viikonpaivienIdt = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+                viikonpaivat.forEach((paiva, index) => {
+                    const paivanData = data.find(p => p.viikonpaiva === paiva);
+                    if (paivanData) {
+                        const avaaSelect = document.getElementById(`aukeaa-${viikonpaivienIdt[index]}`);
+                        const suljeSelect = document.getElementById(`sulkeutuu-${viikonpaivienIdt[index]}`);
+
+                        if (avaaSelect && suljeSelect) {
+                            avaaSelect.value = paivanData.avaa.substring(0, 5);
+                            suljeSelect.value = paivanData.sulkee.substring(0, 5);
+                            updateClosedStatus(viikonpaivienIdt[index]);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        }
+        //Hamburger menu handling
+        const hamburger = document.querySelector('.hamburger');
+        const navigationMobile = document.querySelector('.navigation-mobile');
+        const closeButton = document.querySelector('.close-button');
+
+        hamburger.addEventListener('click', () => {
+            navigationMobile.classList.toggle('show');
+        });
+
+        closeButton.addEventListener('click', () => {
+            navigationMobile.classList.remove('show');
+        });
+
+        // Close navigation list when any list item is clicked
+        document.querySelectorAll('.navigation-mobile li').forEach(item => {
+            item.addEventListener('click', () => {
+                navigationMobile.classList.remove('show');
+            });
+        });
+
+
+        //Muokkaa/Tallenna buttons functionality
+        /*document.addEventListener('DOMContentLoaded', function () {
+            const muokkaaButton = document.getElementById('muokkaa-button');
+            const tallennaButton = document.createElement('button');
+            tallennaButton.textContent = 'Tallenna';
+            tallennaButton.classList.add('action-button');
+
+            // Function to toggle edit mode
+            function toggleEditMode(enabled) {
+                const selectFields = document.querySelectorAll('.main-container select');
+                const checkboxes = document.querySelectorAll('.main-container input[type="checkbox"]');
+
+                selectFields.forEach(field => {
+                    field.disabled = !enabled;
+                });
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.disabled = !enabled;
+                });
+            }*/
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const muokkaaButton = document.getElementById('muokkaa-button');
+
+            // Function to toggle edit mode
+            function toggleEditMode(enabled) {
+                const selectFields = document.querySelectorAll('.main-container select');
+                const checkboxes = document.querySelectorAll('.main-container input[type="checkbox"]');
+                selectFields.forEach(field => field.disabled = !enabled);
+                checkboxes.forEach(checkbox => checkbox.disabled = !enabled);
+            }
+
+
+            // Initially disable the day-rows
+            toggleEditMode(false); // CALL TO DISABLE BY DEFAULT¨
+
+            // Function to validate opening and closing times
+            function validateOpeningHours(aukioloajat) {
+                for (let ajat of aukioloajat) {
+                    // Oletetaan, että avaa ja sulkee ovat muodossa 'HH:MM'
+                    const avaaParts = ajat.avaa.split(':');
+                    const sulkeeParts = ajat.sulkee.split(':');
+                    const avaaTime = new Date();
+                    avaaTime.setHours(parseInt(avaaParts[0]), parseInt(avaaParts[1]), 0, 0);
+                    const sulkeeTime = new Date();
+                    sulkeeTime.setHours(parseInt(sulkeeParts[0]), parseInt(sulkeeParts[1]), 0, 0);
+
+                    if (sulkeeTime < avaaTime) {
+                        alert(`Virhe: Sulkemisaika on ennen avaamisaikaa päivänä ${ajat.viikonpaiva}.`);
+                        return false; // Palauttaa false, mikä indikoi virhettä
+                    }
+                }
+                return true; // Kaikki ajat ovat kelvollisia
+            }
+
+
+            // Function to handle button click
+            function handleButtonClick() {
+                const isEditMode = this.textContent === 'Muokkaa';
+
+                toggleEditMode(isEditMode);
+
+                // Toggle button text and functionality
+                if (isEditMode) {
+                    this.textContent = 'Tallenna';
+                } else {
+                    const aukioloajat = [
+                        {
+                            viikonpaiva: 'Maanantai',
+                            avaa: document.getElementById('aukeaa-mon').value,
+                            sulkee: document.getElementById('sulkeutuu-mon').value,
+                        },
+                        {
+                            viikonpaiva: 'Tiistai',
+                            avaa: document.getElementById('aukeaa-tue').value,
+                            sulkee: document.getElementById('sulkeutuu-tue').value,
+                        },
+                        {
+                            viikonpaiva: 'Keskiviikko',
+                            avaa: document.getElementById('aukeaa-wed').value,
+                            sulkee: document.getElementById('sulkeutuu-wed').value,
+                        },
+                        {
+                            viikonpaiva: 'Torstai',
+                            avaa: document.getElementById('aukeaa-thu').value,
+                            sulkee: document.getElementById('sulkeutuu-thu').value,
+                        },
+                        {
+                            viikonpaiva: 'Perjantai',
+                            avaa: document.getElementById('aukeaa-fri').value,
+                            sulkee: document.getElementById('sulkeutuu-fri').value,
+                        },
+                        {
+                            viikonpaiva: 'Lauantai',
+                            avaa: document.getElementById('aukeaa-sat').value,
+                            sulkee: document.getElementById('sulkeutuu-sat').value,
+                        },
+                        {
+                            viikonpaiva: 'Sunnuntai',
+                            avaa: document.getElementById('aukeaa-sun').value,
+                            sulkee: document.getElementById('sulkeutuu-sun').value,
+                        }
+                    ];
+
+                    if (!validateOpeningHours(aukioloajat)) {
+                        toggleEditMode(true); // Jos validointi epäonnistuu, jätä muokkaustila päälle
+                        return; // Älä jatka tallennusprosessiin
+                    }
+                    console.log(aukioloajat);
+                    console.log(JSON.stringify(aukioloajat));
+
+
+                    //Lähetä päivitetyt tiedot serverille
+                    fetch(`http://localhost:3000/updatedOpeningHours`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(aukioloajat),
+
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error(
+                                    "Network response was not ok " + response.statusText
+                                );
+                            }
+
+                            return response.json();
+                        })
+                        .then((data) => {
+                            console.log("Päivitys onnistui!", data);
+                            infoValues.forEach((input) => (input.disabled = true)); // Disable the form fields again
+                        })
+                        .catch((error) => {
+                            console.error("PÄIVITYS EPÄONNISTUI: ", error);
+                        });
+                    this.textContent = 'Muokkaa';
+                }
+
+                /**/
+                toggleEditMode(isEditMode);
+                muokkaaButton.textContent = isEditMode ? 'Tallenna' : 'Muokkaa';
+            }
+
+            // Add event listeners to existing and new buttons
+            /* muokkaaButton.addEventListener('click', handleButtonClick);
+             tallennaButton.addEventListener('click', handleButtonClick);
+             document.getElementById('muokkaa-button').addEventListener('click', handleButtonClick);
+ 
+             // Append the new button to the main container
+             const mobileButtonContainer = document.getElementById('mobile-button-container');
+             mobileButtonContainer.appendChild(tallennaButton);
+ 
+             // Toggle visibility of buttons based on screen width
+             function toggleButtonVisibility() {
+                 if (window.innerWidth <= 576) {
+                     muokkaaButton.style.display = 'none'; // Hide "Muokkaa" on mobile
+                     tallennaButton.style.display = 'block'; // Show "Tallenna" on mobile
+                 } else {
+                     muokkaaButton.style.display = 'block'; // Show "Muokkaa" on desktop
+                     tallennaButton.style.display = 'none'; // Hide "Tallenna" on desktop
+                 }
+             }
+ 
+             toggleButtonVisibility(); // Initial check
+             window.addEventListener('resize', toggleButtonVisibility);*/
+
+
+            // Bind the click event to the "Muokkaa"/"Tallenna" button
+            muokkaaButton.addEventListener('click', handleButtonClick);
+        });
+
+
+        // Function to populate select dropdown with half-hour options
+        function populateHalfHourOptions(selectElement) {
+            selectElement.innerHTML = ''; // Clear existing options
+            for (let hour = 0; hour < 24; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    const option = new Option(time, time);
+                    selectElement.add(option);
+                }
+            }
+        }
+
+        //Actual piece of code that does the population
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectElements = document.querySelectorAll('select');
+            selectElements.forEach(select => {
+                populateHalfHourOptions(select);
+            });
+        });
+
+
+        //Tyhjentää kellonaika kentät, jos käyttäjä rastikkaa Suljetti checkboxin.
+        //Ei tallenneta turhia kellonaikoja kantaan
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectElements = document.querySelectorAll('select');
+            selectElements.forEach(select => {
+                populateHalfHourOptions(select);
+            });
+
+            // Add event listener to "Suljettu" checkboxes within the main container
+            const mainClosedCheckboxes = document.querySelectorAll('.main-container input[type="checkbox"]');
+            mainClosedCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    const parentRow = this.closest('.day-row');
+                    const selectAukeaa = parentRow.querySelector('.aukeaa-select');
+                    const selectSulkeutuu = parentRow.querySelector('.sulkeutuu-select');
+
+                    // If the checkbox is checked, clear the select values
+                    if (this.checked) {
+                        selectAukeaa.selectedIndex = 0;
+                        selectSulkeutuu.selectedIndex = 0;
+                    }
+                });
+            });
+        });
+
+        async function uusiPoikkeusaukioloaika() {
+            // Get the values from the input and select elements
+            const dateInput = document.getElementById('exception-date').value;
+            const openSelect = document.getElementById('exception-aukeaa').value;
+            const closeSelect = document.getElementById('exception-sulkeutuu').value;
+            const closedCheckbox = document.getElementById('exception-suljettu').checked;
+
+            // If the "Suljettu" checkbox is checked, set open and close times to "00:00"
+            const avaa = closedCheckbox ? "00:00" : openSelect;
+            const sulkee = closedCheckbox ? "00:00" : closeSelect;
+
+            // Define the data object to be sent to the server
+            const data = {
+                paivamaara: dateInput,
+                avaa: avaa,
+                sulkee: sulkee
+            };
+
+            console.log(data);
+            // Make the POST request to the server with the data
+            fetch("http://localhost:3000/newExceptionOpeninghour", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        alert("Poikkeusaukioloaika lisätty");
+                    } else {
+                        alert("Poikkeusaukioloajan lisäämisessä meni joku mönkään");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+
+        async function haePoikkeusaukioloajat() {
+            try {
+                const response = await fetch('http://localhost:3000/getSpecialOpeningHours');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const poikkeusaukioloajat = await response.json();
+                populateExceptionRows(poikkeusaukioloajat);
+
+            } catch (error) {
+                console.error('Error fetching exception opening hours:', error);
+            }
+        }
+
+
+
+        // Function to add a new exception row to the table
+        function addExceptionRow() {
+            const dateInput = document.getElementById('exception-date');
+            const openSelect = document.getElementById('exception-aukeaa');
+            const closeSelect = document.getElementById('exception-sulkeutuu');
+            const closedCheckbox = document.getElementById('exception-suljettu');
+
+            const chosenDataValue = dateInput.value;
+
+            // Check if the date is chosen
+            if (!dateInput.value) {
+                alert('Valitse jokin päivämäärä, jotta voit lisätä poikkeusajan.');
+                return; // Exit the function if date is not chosen
+            }
+
+            // Check if "Suljettu" checkbox is not checked (place is open)
+            if (!closedCheckbox.checked) {
+                // Check if open time and close time are not chosen
+                if (!openSelect.value || !closeSelect.value) {
+                    alert('Valitse aukioloajat tai merkitse "Suljettu".');
+                    return; // Exit the function if time frame is not chosen
+                }
+
+                // Check if the chosen open and close times are the same
+                if (openSelect.value === closeSelect.value) {
+                    alert('Aukeamis- ja sulkemisajat eivät voi olla samat.');
+                    return; // Exit the function if open and close times are the same
+                }
+            }
+
+            // If "Suljettu" checkbox is checked, empty the times
+            if (closedCheckbox.checked) {
+                openSelect.value = ''; // Empty "Aukeaa" select dropdown
+                closeSelect.value = ''; // Empty "Sulkeutuu" select dropdown
+            }
+
+            // Check if the chosen date is in the past
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date().setHours(0, 0, 0, 0); // Set time to midnight for comparison
+            if (selectedDate < today) {
+                alert('Valitsemasi päivämäärä on menneisyydessä.');
+                return; // Exit the function if date is in the past
+            }
+            if (openSelect.value > closeSelect.value) {
+                alert('Sulkemisaika ei voi olla ennen aukeamisaikaa.')
+                return;
+            }
+
+
+            const exceptionTable = document.querySelector('.exception-table tbody');
+
+            // Create a new row
+            const newRow = document.createElement('tr');
+            newRow.classList.add('exception-row');
+
+            // Add date cell
+            const dateCell = document.createElement('td');
+            const formattedDate = formatoiPaivamaara(dateInput.value);
+
+            const existingRows = exceptionTable.querySelectorAll('tr');
+
+            // Tarkista, löytyykö päivämäärä jo taulukosta
+            for (let i = 0; i < existingRows.length; i++) {
+                const currentRowDate = existingRows[i].querySelector('td').textContent;
+                if (formattedDate === currentRowDate) {
+                    alert('Kyseiselle päivämäärälle on jo asetettu poikkeusaukioloaika. Tarkista poikkeusaukioloaika ja tarvittaessa luo se uudelleen.');
+                    return; // Lopeta funktio tässä
+                }
+            }
+
+            dateCell.textContent = formattedDate;
+            newRow.appendChild(dateCell);
+
+            // Add open time cell
+            const openCell = document.createElement('td');
+            openCell.textContent = openSelect.value;
+            newRow.appendChild(openCell);
+
+            // Add close time cell
+            const closeCell = document.createElement('td');
+            closeCell.textContent = closeSelect.value;
+            newRow.appendChild(closeCell);
+
+            // Add closed cell
+            const closedCell = document.createElement('td');
+            if (closedCheckbox.checked) {
+                closedCell.textContent = 'Suljettu';
+            } else {
+                closedCell.textContent = '';
+            }
+            newRow.appendChild(closedCell);
+
+            // Add delete button cell
+            const deleteCell = document.createElement('td');
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Poista';
+            deleteButton.classList.add('action-button'); // Add the action-button class
+            deleteButton.addEventListener('click', function () {
+                if (!confirm('Haluatko varmasti poistaa tämän poikkeusaukioloajan?')) {
+                    return;
+
+                }
+                deleteExceptionOpeninghour(chosenDataValue);
+                newRow.remove(); // Remove the row when the button is clicked
+            });
+            deleteCell.appendChild(deleteButton);
+            newRow.appendChild(deleteCell);
+
+            let added = false;
+            const rows = Array.from(exceptionTable.getElementsByTagName('tr'));
+            for (let i = 0; i < rows.length; i++) {
+                const rowDate = rows[i].getElementsByTagName('td')[0].textContent;
+                if (new Date(dateInput.value) < new Date(rowDate.split('.').reverse().join('-'))) {
+                    exceptionTable.insertBefore(newRow, rows[i]);
+                    added = true;
+                    break;
+                }
+            }
+
+            // Jos uutta riviä ei ole vielä lisätty, lisää se taulukon loppuun
+            if (!added) {
+                exceptionTable.appendChild(newRow);
+            }
+
+            uusiPoikkeusaukioloaika();
+
+            // Reset fields after adding the exception
+            dateInput.value = ''; // Reset date input
+            openSelect.selectedIndex = 0; // Reset open time select to the first option
+            closeSelect.selectedIndex = 0; // Reset close time select to the first option
+            closedCheckbox.checked = true; // Uncheck the closed checkbox
+        }
+
+        function populateExceptionRows(poikkeusaukioloajat) {
+            const exceptionTableBody = document.querySelector('.exception-table tbody');
+
+            // Tyhjennetään mahdolliset aiemmat poikkeusajat
+            exceptionTableBody.innerHTML = '';
+
+            // Lisätään tietokannasta haetut poikkeusaukioloajat taulukkoon
+            poikkeusaukioloajat.forEach(poikkeus => {
+                const newRow = document.createElement('tr');
+                newRow.classList.add('exception-row');
+
+                const formattedDate = formatoiPaivamaara(poikkeus.paivamaara);
+
+                // Lisätään päivämääräsolu
+                const dateCell = newRow.insertCell();
+                dateCell.textContent = formattedDate;
+
+                // Päätetään näytetäänkö aukioloajat vai "Suljettu"
+                const openCell = newRow.insertCell();
+                const closeCell = newRow.insertCell();
+                const closedCell = newRow.insertCell();
+                if (poikkeus.avaa === '00:00:00' && poikkeus.sulkee === '00:00:00') {
+                    openCell.textContent = '';
+                    closeCell.style.display = ''; // Piilotetaan sulkemisaikasolu
+                    closedCell.textContent = "Suljettu";
+                } else {
+                    openCell.textContent = poikkeus.avaa.substring(0, 2) + '.' + poikkeus.avaa.substring(3, 5);
+                    // Muunnetaan sulkemisaika muotoon "hh.mm"
+                    closeCell.textContent = poikkeus.sulkee.substring(0, 2) + '.' + poikkeus.sulkee.substring(3, 5);
+
+                    closedCell.textContent = '';
+                }
+
+                // Lisätään poistonappisolu
+                const deleteCell = newRow.insertCell();
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Poista';
+                deleteButton.classList.add('action-button');
+                deleteButton.addEventListener('click', function () {
+                    if (!confirm('Haluatko varmasti poistaa tämän poikkeusaukioloajan?')) {
+                        return;
+                    }
+                    deleteExceptionOpeninghour(poikkeus.paivamaara);
+                    // Tässä tarvitaan koodia poikkeusaukioloajan poistamiseksi tietokannasta
+                    newRow.remove();
+                });
+                deleteCell.appendChild(deleteButton);
+
+                // Lisätään uusi rivi taulukkoon
+                exceptionTableBody.appendChild(newRow);
+            });
+        }
+
+        function formatoiPaivamaara(paivamaara) {
+            const osat = paivamaara.split('-');
+            return `${osat[2]}.${osat[1]}.${osat[0]}`;
+        }
+
+        function deleteExceptionOpeninghour(exceptionDate) {
+
+            console.log(exceptionDate);
+
+            fetch(`http://localhost:3000/deleteExceptionOpeninghour/${exceptionDate}`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Poikkeusaukioloaika poistettu onnistuneesti.');
+                    } else {
+                        alert('Virhe poistettaessa poikkeusaukioloaikaa.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listener to the "Lisää" button within the exception container
+            const addButton = document.getElementById('add-exception-button');
+            addButton.addEventListener('click', function () {
+                addExceptionRow(); // Call the modified function to add and reset
+            });
+        });
+
+        window.onload = function () {
+            haeAukioloajat();
+            haePoikkeusaukioloajat();
+        };
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+            function updateClosedStatus(day) {
+                const openSelect = document.getElementById(`aukeaa-${day}`);
+                const closeSelect = document.getElementById(`sulkeutuu-${day}`);
+                const closedCheckbox = document.getElementById(`closed-${day}`);
+
+                // Tarkista että kaikki elementit on olemassa
+                if (openSelect && closeSelect && closedCheckbox) {
+                    // Vain jos molemmat ajat ovat "00:00", aseta "Suljettu" -valintaruutu valituksi
+                    if (openSelect.value === "00:00" && closeSelect.value === "00:00") {
+                        closedCheckbox.checked = true;
+                    } else {
+                        closedCheckbox.checked = false;
+                    }
+                } else {
+                    // Jos elementtiä ei löydy, näytä virhe konsolissa
+                    console.error('One of the elements does not exist for day:', day);
+                }
+            }
+
+            // Käy läpi jokainen päivä ja päivitä tila
+            days.forEach(day => {
+                updateClosedStatus(day);
+
+                // Lisää tapahtumankuuntelijat aukioloaikojen muutoksille
+                document.getElementById(`aukeaa-${day}`).addEventListener('change', () => updateClosedStatus(day));
+                document.getElementById(`sulkeutuu-${day}`).addEventListener('change', () => updateClosedStatus(day));
+            });
+        });
+
+        // Update the 'closed' checkbox status based on the times selected
+        function updateClosedStatus(day) {
+            const openSelect = document.getElementById(`aukeaa-${day}`);
+            const closeSelect = document.getElementById(`sulkeutuu-${day}`);
+            const closedCheckbox = document.getElementById(`closed-${day}`);
+
+            if (openSelect && closeSelect && closedCheckbox) {
+                closedCheckbox.checked = openSelect.value === "00:00" && closeSelect.value === "00:00";
+            }
+        }
+
+        // Add event listeners for changes to the opening and closing time selectors
+        document.addEventListener('DOMContentLoaded', function () {
+            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+            days.forEach(day => {
+                document.getElementById(`aukeaa-${day}`).addEventListener('change', () => updateClosedStatus(day));
+                document.getElementById(`sulkeutuu-${day}`).addEventListener('change', () => updateClosedStatus(day));
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const exceptionAukeaa = document.getElementById('exception-aukeaa');
+            const exceptionSulkeutuu = document.getElementById('exception-sulkeutuu');
+            const exceptionSuljettu = document.getElementById('exception-suljettu');
+
+            function setClosedTimes() {
+                exceptionAukeaa.value = '00:00';
+                exceptionSulkeutuu.value = '00:00';
+            }
+
+            function updateClosedCheckbox() {
+                exceptionSuljettu.checked = exceptionAukeaa.value === '00:00' && exceptionSulkeutuu.value === '00:00';
+            }
+
+            // Set event listeners for the dropdowns and checkbox
+            exceptionSuljettu.addEventListener('change', function () {
+                if (this.checked) {
+                    setClosedTimes();
+                }
+            });
+
+            exceptionAukeaa.addEventListener('change', updateClosedCheckbox);
+            exceptionSulkeutuu.addEventListener('change', updateClosedCheckbox);
+
+            // Call the function to set the checkbox state on page load
+            updateClosedCheckbox();
+        });
+
+
+
+    </script>
+</body>
+
+</html>

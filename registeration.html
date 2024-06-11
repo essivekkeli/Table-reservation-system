@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4c2c2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .register-container {
+            background-color: #ffc0cb;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+
+        .register-container h2 {
+            text-align: center;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .register-container input,
+        .register-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .register-container button {
+            background-color: #000;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .register-container button:hover {
+            background-color: #555;
+        }
+
+        .register-container label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .required:after {
+            content: "*";
+            color: red;
+        }
+
+        @media (min-width: 576px) {
+
+            .register-container input[type="text"],
+            .register-container input[type="email"],
+            .register-container input[type="tel"],
+            .register-container input[type="password"] {
+                width: calc(50% - 10px);
+            }
+
+            .register-container input.full-width {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <h2>Uusi tunnus</h2>
+        <form id="reqForm" method="post">
+            <label for="firstname" class="required">Etunimi</label>
+            <input type="text" id="firstname" name="firstname" required>
+            
+            <label for="lastname" class="required">Sukunimi</label>
+            <input type="text" id="lastname" name="lastname" required>
+
+            <label for="email" class="required">Sähköposti</label>
+            <input type="email" id="email" name="email" required class="full-width" />
+
+            <label for="phone">Puhelinnumero</label>
+            <input type="tel" id="phone" name="phone" class="full-width" />
+
+            <label for="password" class="required">Salasana</label>
+            <input type="password" id="password" name="password" required class="full-width" />
+
+            <label for="confirm_password" class="required">Toista salasana</label>
+            <input type="password" id="confirm_password" name="confirm_password" required class="full-width" />
+
+            <button type="submit">
+                Luo
+            </button>
+
+            <button type="button" onclick="goToHomePage()">Takaisin</button>
+        </form>
+    </div>
+</body>
+<script src="regClient.js"></script>
+<script>
+   
+    function goToHomePage() {
+        window.location.href = "index.html";
+    }
+</script>
+
+</html>
